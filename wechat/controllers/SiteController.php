@@ -101,10 +101,6 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
         $session = Yii::$app->session;
         $code = Yii::$app->request->get('code');
         if (!isset($session['userid'])) {
