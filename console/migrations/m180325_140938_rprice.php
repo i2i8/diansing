@@ -50,7 +50,7 @@ class m180325_140938_rprice extends Migration
          * 当更新外表'{{%user}}'，某个addid的时候，本表'{{%user_add}}',对应的addid列不做改动
          * */
         //依次为：本表的外键名称，本表名称，本表中作为外键的字段，主表名称，映射到主表的字段，RESTRICT(限制)，CASCADE（级联）
-        //如下外表中的mid及vid等同于直接映射自增id
+        //如下外表中的mid及vid等同于直接映射他们各自表中的自增id
         $this->addForeignKey('index_mid_midForeignKey' , self::TBL_RPRICE , 'index_mid' , '{{%rmodel}}' , 'mid' , 'CASCADE', 'CASCADE');
         $this->addForeignKey('index_tid_vidForeignKey' , self::TBL_RPRICE , 'index_tid' , '{{%rtype}}' , 'vid' , 'CASCADE', 'CASCADE');
         // 依次为：索引名称,表名，用哪些字段来创建索引值，若是多字段的话，可以都写里头，第四个true表示是否是唯一性的。
