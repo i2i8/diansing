@@ -1,8 +1,7 @@
 <?php
-namespace backend\models;
+namespace common\models;
 
 use Yii;
-use yii\base\Model;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -22,17 +21,18 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class Root extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+
 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%root}}';
+        return '{{%user}}';
     }
 
     /**
@@ -51,13 +51,6 @@ class Root extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'email'], 'required'],
-            [['username', 'email', 'auth_key'], 'string', 'max' => 255],
-            [['username'], 'unique'],
-            [['username'], 'match', 'pattern' => '/^[a-z]\w*$/i'],
-            [['email'], 'unique'],
-            [['email'],'email'],
-            [['password_reset_token'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
