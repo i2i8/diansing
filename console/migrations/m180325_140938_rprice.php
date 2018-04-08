@@ -18,10 +18,11 @@ class m180325_140938_rprice extends Migration
         
         $this->createTable(self::TBL_RPRICE, [
                 'id'	      => $this->primaryKey(),
+                //Equivalent to ID
+                'pid'         => $this->integer()->Null()->COMMENT('EQtoID'),
                 //如下两字段设为Null
                 'index_mid'   => $this->integer()->notNull()->COMMENT('品牌型号'),
                 'index_tid'   => $this->integer()->notNull()->COMMENT('维修类型'),
-                'pid'         => $this->integer()->Null()->COMMENT('价格标识'),
                 //nowprice
                 'nowprice' 	  => $this->integer(5)->Null()->COMMENT('当前价格'),
                 //willprice
@@ -48,9 +49,9 @@ class m180325_140938_rprice extends Migration
          * 当更新外表'{{%user}}'，某个addid的时候，本表'{{%user_add}}',对应的addid列不做改动
          * */
         //依次为：本表的外键名称，本表名称，本表中作为外键的字段，主表名称，映射到主表的字段，RESTRICT(限制)，CASCADE（级联）
-        //$this->addForeignKey('noded' , self::TBL_IFLOW_NODE , 'flow_no' , '{{%iflow}}' , 'flow_no' , 'CASCADE' , 'RESTRICT');
-        $this->addForeignKey('mid_PidForeignKey' , self::TBL_RPRICE , 'index_mid' , '{{%rmodel}}' , 'mid' , 'CASCADE', 'CASCADE');
-        $this->addForeignKey('tid_PidForeignKey' , self::TBL_RPRICE , 'index_tid' , '{{%rtype}}' , 'tid' , 'CASCADE', 'CASCADE');
+        //如下外表中的mid及vid等同于直接映射自增id
+        $this->addForeignKey('index_mid_midForeignKey' , self::TBL_RPRICE , 'index_mid' , '{{%rmodel}}' , 'mid' , 'CASCADE', 'CASCADE');
+        $this->addForeignKey('index_tid_vidForeignKey' , self::TBL_RPRICE , 'index_tid' , '{{%rtype}}' , 'vid' , 'CASCADE', 'CASCADE');
         // 依次为：索引名称,表名，用哪些字段来创建索引值，若是多字段的话，可以都写里头，第四个true表示是否是唯一性的。
         // 最后一个参数慎用，尤其在有外键约束的情况下，只能false，否则，从表关联字段不能被重复写入，造成数据入库失败。
         $this->createIndex('index_midIndex', self::TBL_RPRICE, 'index_mid', false);

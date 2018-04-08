@@ -18,8 +18,8 @@ class m180325_140859_rmodel extends Migration
         
         $this->createTable(self::TBL_RMODEL, [
                 'id'	    => $this->primaryKey(),
-                //父序列号，必须为Null，因为第一次save的时候，自增id还没生成，mid是第二次save前，由前一次save主入库后获取到的
-                'mid'      => $this->integer()->Null()->COMMENT('关联索引'),
+                //Equivalent to ID，必须为Null，因为第一次save的时候，自增id还没生成，mid是第二次save前，由前一次save主入库后获取到的
+                'mid'       => $this->integer()->Null()->COMMENT('关联索引'),
                 //品牌型号
                 'name'   	=> $this->string(28)->notNull()->defaultValue('')->COMMENT('品牌型号'),
                 //录入时间

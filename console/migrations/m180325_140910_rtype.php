@@ -18,7 +18,9 @@ class m180325_140910_rtype extends Migration
         
         $this->createTable(self::TBL_RTYPE, [
                 'id'	    => $this->primaryKey(),
-                //父序列号
+                //Equivalent to this table id
+                'vid'       => $this->integer()->Null()->COMMENT('EQtoID'),
+                //Association to mid
                 'tid'       => $this->integer()->notNull()->COMMENT('关联索引'),
                 //维修类型
                 'type'   	=> $this->string(28)->notNull()->defaultValue('')->COMMENT('维修类型'),
