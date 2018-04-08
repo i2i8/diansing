@@ -29,7 +29,7 @@ class m180325_140910_rtype extends Migration
         ], $tableOptions);
         $this->createIndex('tidIndex', self::TBL_RTYPE, 'tid', false);
         //依次为：本表的外键名称，本表名称，本表中作为外键的字段，主表名称，映射到主表的字段，RESTRICT(限制)，CASCADE（级联）
-        $this->addForeignKey('tid_RtypeForeignKey' , self::TBL_RTYPE , 'tid' , '{{%rmodel}}' , 'mid' , 'CASCADE', 'CASCADE');
+        $this->addForeignKey('tid_midForeignKey' , self::TBL_RTYPE , 'tid' , '{{%rmodel}}' , 'mid' , 'CASCADE', 'CASCADE');
     }
     
     public function safeDown()

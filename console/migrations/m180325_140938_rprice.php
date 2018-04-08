@@ -17,17 +17,17 @@ class m180325_140938_rprice extends Migration
         }
         
         $this->createTable(self::TBL_RPRICE, [
-                'id'	       => $this->primaryKey(),
+                'id'	      => $this->primaryKey(),
                 //如下两字段设为Null
                 'index_mid'   => $this->integer()->notNull()->COMMENT('品牌型号'),
-                'index_tid'     => $this->integer()->notNull()->COMMENT('维修类型'),
-                'pid'          => $this->integer()->Null()->COMMENT('价格标识'),
+                'index_tid'   => $this->integer()->notNull()->COMMENT('维修类型'),
+                'pid'         => $this->integer()->Null()->COMMENT('价格标识'),
                 //nowprice
-                'nowprice' 	   => $this->integer(5)->Null()->COMMENT('当前价格'),
+                'nowprice' 	  => $this->integer(5)->Null()->COMMENT('当前价格'),
                 //willprice
-                'willprice'    => $this->integer(5)->Null()->COMMENT('出库价格'),
+                'willprice'   => $this->integer(5)->Null()->COMMENT('出库价格'),
                 //备注描述
-                'remark' 	   => $this->string()->Null()->COMMENT('备注描述'),
+                'remark' 	  => $this->string()->Null()->COMMENT('备注描述'),
                 //录入时间
                 'created' 	=> $this->dateTime()->notNull()->defaultValue(0)->COMMENT('录入时间'),
                 //调整时间
@@ -53,6 +53,8 @@ class m180325_140938_rprice extends Migration
         $this->addForeignKey('tid_PidForeignKey' , self::TBL_RPRICE , 'index_tid' , '{{%rtype}}' , 'tid' , 'CASCADE', 'CASCADE');
         // 依次为：索引名称,表名，用哪些字段来创建索引值，若是多字段的话，可以都写里头，第四个true表示是否是唯一性的。
         // 最后一个参数慎用，尤其在有外键约束的情况下，只能false，否则，从表关联字段不能被重复写入，造成数据入库失败。
+        $this->createIndex('index_midIndex', self::TBL_RPRICE, 'index_mid', false);
+        $this->createIndex('index_tidIndex', self::TBL_RPRICE, 'index_tid', false);
         $this->createIndex('pidIndex', self::TBL_RPRICE, 'pid', false);
         /**
          * 注：记得给外表的字段addid加索引，否则无法添加为外键。
