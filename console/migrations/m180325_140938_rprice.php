@@ -20,8 +20,9 @@ class m180325_140938_rprice extends Migration
                 'id'	      => $this->primaryKey(),
                 //Equivalent to ID
                 'pid'         => $this->integer()->Null()->COMMENT('EQtoID'),
-                //如下两字段设为Null
+                //Association to rmodel->mid
                 'index_mid'   => $this->integer()->notNull()->COMMENT('品牌型号'),
+                //Association to rtype->tid
                 'index_tid'   => $this->integer()->notNull()->COMMENT('维修类型'),
                 //nowprice
                 'nowprice' 	  => $this->integer(5)->Null()->COMMENT('当前价格'),
