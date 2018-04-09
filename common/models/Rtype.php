@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Rmodel;
 
 /**
  * This is the model class for table "rtype".

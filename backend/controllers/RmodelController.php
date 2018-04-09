@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\helpers\Json;
+use yii\web\Response;
 use common\models\Rmodel;
 use common\models\RmodelSearch;
 use yii\web\Controller;
@@ -29,7 +31,7 @@ class RmodelController extends Controller
                         'allow' => true
                     ],
                     [
-                        'actions' => ['logout', 'index','create','delete','update','view'],
+                        'actions' => ['logout', 'index','create','delete','view' ,'editable'],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -157,5 +159,39 @@ class RmodelController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+    public function actionEditable()
+    {
+        if (Yii::$app->request->post('hasEditable')) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            
+            $model = $this->findModel(Yii::$app->request->post('editableKey'));
+            
+            $out = [
+                'output'    => '',
+                'message'   => '',
+            ];
+            
+            // fetch the first entry in posted data (there should
+            // only be one entry anyway in this array for an
+            // editable submission)
+            // - $posted is the posted data for Model without any indexes
+            // - $post is the converted array for single model validation
+            $posted = current($_POST[$model->formName()]);
+            $post[$model->formName()] = $posted;
+            Yii::info('processed post:' . print_r($posted,true));
+            
+            if ($model->load($post)) {
+                if (!$model->save()) {
+                    $out = [
+                        'output'    => '',
+                        'message'   => $model->getFirstError(),
+                    ];
+                }
+                Yii::info('editable returns:' . print_r($out,true));
+                return $out;
+            }
+        }
     }
 }

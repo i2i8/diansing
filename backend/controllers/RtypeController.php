@@ -3,12 +3,14 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\helpers\Json;
 use common\models\Rtype;
 use common\models\RtypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\Response; 
 
 /**
  * RtypeController implements the CRUD actions for Rtype model.
@@ -29,7 +31,7 @@ class RtypeController extends Controller
                         'allow' => true
                     ],
                     [
-                        'actions' => ['logout', 'index','create','delete','update','view'],
+                        'actions' => ['logout', 'index','create','delete', 'view', 'editable'],
                         'allow' => true,
                         'roles' => ['@']
                     ]
@@ -52,7 +54,25 @@ class RtypeController extends Controller
     {
         $searchModel = new RtypeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        if (Yii::$app->request->post('hasEditable'))
+        {            
+            $typeiId = Yii::$app->request->post('editableKey');
+            $type = Rtype::findOne($typeiId);
+            $out = Json::encode(['output' => '','message' => '']);
+            
+            $post = [];
+            $posted = current($_POST['Rtype']);
+//             echo "<pre>";
+//             var_dump($posted);
+//             echo "</pre>";
+//             exit;
+            $post['Rtype'] = $posted;
+            if ($type->load($post)) 
+            {
+                $type->save();
+            }
+            return $out;
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -157,5 +177,39 @@ class RtypeController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+    public function actionEditable() 
+    {
+        if (Yii::$app->request->post('hasEditable')) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            
+            $model = $this->findModel(Yii::$app->request->post('editableKey'));
+            
+            $out = [
+                'output'    => '',
+                'message'   => '',
+            ];
+            
+            // fetch the first entry in posted data (there should
+            // only be one entry anyway in this array for an
+            // editable submission)
+            // - $posted is the posted data for Model without any indexes
+            // - $post is the converted array for single model validation
+            $posted = current($_POST[$model->formName()]);
+            $post[$model->formName()] = $posted;
+            Yii::info('processed post:' . print_r($posted,true));
+            
+            if ($model->load($post)) {
+                if (!$model->save()) {
+                    $out = [
+                        'output'    => '',
+                        'message'   => $model->getFirstError(),
+                    ];
+                }
+                Yii::info('editable returns:' . print_r($out,true));
+                return $out;
+            }
+        }
     }
 }

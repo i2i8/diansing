@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use kartik\dialog\Dialog;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Rmodel */
 
@@ -10,8 +10,9 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Rmodels', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="rmodel-view">
 
+<div class="rmodel-view">
+	<?= Dialog::widget(['overrideYiiConfirm' => true]); ?>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\RmodelSearch */
@@ -28,11 +28,29 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id',
             //'mid',
-            'name',
+            //@See:http://www.prettyscripts.com/code/php/yii2-gridview-inline-editing-with-editable-column/
+            [
+                'attribute' => 'name',
+                'class'         => 'kartik\grid\EditableColumn',
+                'editableOptions'   => function($model, $key, $index) {
+                return [
+                    'header'        => 'Header Name',
+                    'formOptions'   => [
+                        'action'    => [
+                            '/rmodel/editable',
+                        ],
+                    ],
+                    'submitButton'  => [
+                        'class' => 'btn btn-sm btn-primary',
+                        'icon'  => '<i class="glyphicon glyphicon-floppy-disk"></i>',
+                    ],
+                ];
+                },
+                ],
             'created',
             'updated',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
