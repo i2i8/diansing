@@ -43,7 +43,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
  *              $.post("'.Url::toRoute(['atypes/lists','id'=>'']).'"+$(this).val(), function(data) {
  *                  $("select#aprice-types_atid").html(data);
  *              });'
- * 
+ * widget(Rmodel::getCategories(), 
  */
 ?>
 <div class="rprice-form">
@@ -64,6 +64,8 @@ use wbraganca\dynamicform\DynamicFormWidget;
     <?= $form->field($model, 'nowprice')->textInput() ?>
 
     <?= $form->field($model, 'willprice')->textInput() ?>
+    
+    <?= $form->field($model, 'remark')->textInput() ?>
     
 <div class="panel panel-default">
    <div class="panel-heading"><h5><i class="glyphicon glyphicon-envelope"></i>noting......</h5></div>

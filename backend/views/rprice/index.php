@@ -28,6 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => function ($model, $key, $index, $colum) {
                 return GridView::ROW_COLLAPSED;
             },
+            'contentOptions' => function ($model) {
+                if ($model->remark == 'ds') {
+                    return ['class' => 'success'];
+                }elseif ($model->remark == 'dd') {
+                    return ['class' => 'info'];;
+                }
+            },
             'detail' => function ($model, $key, $index, $colum) {
                 $searchModel = new RemarkSearch();
                 $searchModel->eid = $model->pid;
