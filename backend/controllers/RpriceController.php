@@ -157,30 +157,30 @@ class RpriceController extends Controller
     {
         $model = $this->findModel($id);
         $modelsRemark = $model->remarks;
-        //         echo "<pre>";
-        //         var_dump($model);
-        //         echo "</pre>";
-        //         exit;
+//                 echo "<pre>";
+//                 var_dump($model);
+//                 echo "</pre>";
+//                 exit;
         //$modelsRemark = [new Aremark];
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //备注字段之前有两条记录，例如id为8和id为9，9是准备减掉的，点保存后，列出这两条记录的id
-            $oldIDs = ArrayHelper::map($modelsRemark, 'eid','eid');
+            $oldIDs = ArrayHelper::map($modelsRemark, 'id','id');
             //$oldIDs = Aremark::findOne(['rid' => $id]);
-            //             echo "<pre>";
-            //             var_dump($oldIDs);
-            //             echo "</pre>";
-            //             exit;
+//                         echo "<pre>";
+//                         var_dump($oldIDs);
+//                         echo "</pre>";
+//                         exit;
             //剔除了id为9的记录
             $modelsRemark = Model::createMultiple(Remark::classname(), $modelsRemark);
             Model::loadMultiple($modelsRemark, Yii::$app->request->post());
             //$deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsRemark, 'rid', 'remarks')));
             //将要剔除的id为9的记录赋值给$deletedIDS，准备删除
-            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsRemark, 'eid', 'eid')));
-            //             echo "<pre>";
-            //             var_dump($deletedIDs);
-            //             echo "</pre>";
-            //             exit;
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsRemark, 'id', 'id')));
+//                         echo "<pre>";
+//                         var_dump($deletedIDs);
+//                         echo "</pre>";
+//                         exit;
             // validate all models 验证通过，返回true
             $valid = $model->validate();
             //                 echo "<pre>";
