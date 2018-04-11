@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'index_tid',
             'nowprice',
             'willprice',
-            //'remark',
+            'remark',
             'created',
             'updated',
         ],
